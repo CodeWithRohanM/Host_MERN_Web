@@ -1,51 +1,115 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function SecretPage() {
 
+    const [datas, setDatas] = useState("");
+
+    const navigate = useNavigate();
+
+    const validateUser = async () => {
+        try {
+            const data = await fetch("/secretPage", {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+            });
+
+
+            const getResponse = await data.json();
+            console.log("Response Data = " + getResponse);
+            if(data.status !== 201)
+            {
+                window.alert(getResponse);
+                navigate("/");
+            }
+            else if(data.status === 201)
+            {
+                window.alert(getResponse);
+            }
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    useEffect((curValue) => {
+        validateUser();
+
+    }, []);
+
     return <>
 
-        <section
-            className="relative bg-[url(https://images.unsplash.com/photo-1604014237800-1c9102c219da?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80)] bg-cover bg-center bg-no-repeat"
-        >
-            <div
-                className="absolute inset-0 bg-white/75 sm:bg-transparent sm:bg-gradient-to-r sm:from-white/95 sm:to-white/25"
-            ></div>
 
-            <div
-                className="relative mx-auto max-w-screen-xl px-4 py-32 sm:px-6 lg:flex lg:h-screen lg:items-center lg:px-8"
-            >
-                <div className="max-w-xl text-center sm:text-left">
-                    <h1 className="text-3xl font-extrabold sm:text-5xl">
-                        Let us find your
-
-                        <strong className="block font-extrabold text-rose-700">
-                            Forever Home.
-                        </strong>
-                    </h1>
-
-                    <p className="mt-4 max-w-lg sm:text-xl sm:leading-relaxed">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt illo
-                        tenetur fuga ducimus numquam ea!
-                    </p>
-
-                    <div className="mt-8 flex flex-wrap gap-4 text-center">
-                        <a
-                            href="#"
-                            className="block w-full rounded bg-rose-600 px-12 py-3 text-sm font-medium text-white shadow hover:bg-rose-700 focus:outline-none focus:ring active:bg-rose-500 sm:w-auto"
-                        >
-                            Get Started
-                        </a>
-
-                        <a
-                            href="#"
-                            className="block w-full rounded bg-white px-12 py-3 text-sm font-medium text-rose-600 shadow hover:text-rose-700 focus:outline-none focus:ring active:text-rose-500 sm:w-auto"
-                        >
-                            Learn More
-                        </a>
+        <div className="h-full bg-gray-50 mt-48">
+            <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+                <div className="w-full max-w-md space-y-8">
+                    <div>
+                        <img className="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company" />
+                        <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Sign in to your account</h2>
+                        <p className="mt-2 text-center text-sm text-gray-600">
+                            Or
+                            <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">start your 14-day free trial</a>
+                        </p>
                     </div>
+                    <form className="mt-8 space-y-6">
+                        <input type="hidden" name="remember" value="true" />
+                        <div className="-space-y-px rounded-md shadow-sm">
+                            <div>
+
+                                <input id="email-address" name="firstName" type="text" required className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="First Name" value={datas.firstName}/>
+                            </div>
+
+                            <div>
+
+                                <input id="email-address" name="lastName" type="text" required className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Last Name" value={datas.lastName}/>
+                            </div>
+                            <div>
+                                <input id="email-address" name="email" type="email" required className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Email address" value={datas.email}/>
+                            </div>
+                            <div>
+
+                                <input id="password" name="password" type="password" required className="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Password" value={datas.password}/>
+                            </div>
+                            <div>
+
+                                <input id="password" name="confirmPassword" type="password" required className="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Confirm Password.." value={datas.confirmPassword}/>
+                            </div>
+                            <div>
+
+                                <input id="email-address" name="phone" type="number" required className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Phone Number.." value={datas.phone}/>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center">
+                                <input id="remember-me" name="remember-me" type="checkbox" className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
+                                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">Remember me</label>
+                            </div>
+
+                            <div className="text-sm">
+                                <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">Forgot your password?</a>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button type="submit" className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+
+                                <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                                    <svg className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fillRule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clipRule="evenodd" />
+                                    </svg>
+                                </span>
+                                Register
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </section>
+        </div>
 
 
     </>

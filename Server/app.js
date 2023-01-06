@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 
+const alert = require("alert");
+
 require("dotenv").config({ path: "/Users/rohanmote/Desktop/Thapa Projects/Mini Projects/RevisionMERN/Server/.env" });
 const hbs = require("hbs");
 const jwt = require("jsonwebtoken");
@@ -55,35 +57,6 @@ app.use(express.json());
 // })
 
 
-// //AUTHENTICATE USER SIGNIN to Access Secret Page
-// app.get("/secretPage", authenticate, (req, res)=>{
-//     res.render("SecretPage");
-// })
-
-// //SIGN OUT PAGE
-// app.get("/signOut", authenticate, async (req, res)=>{
-//     try{
-//         const getData = req.getData;
-//         const getCurrentLogInToken = req.getLogInCookie;
-
-//         getData.tokenValue = getData.tokenValue.filter((curValue, index)=>{
-//             return getCurrentLogInToken !== curValue.firstToken;
-//         });
-
-//         await getData.save();
-
-//         res.clearCookie("SignInCookieItchi");
-//         console.log("Cookie Cleared..");
-
-
-//         res.render("indexFile");
-//     }catch(err){
-//         console.log(err);
-//     }
-
-// });
-
-
 
 
 // TAKING URL(ONLINE FORM INPUTS)
@@ -100,10 +73,10 @@ app.post("/register", async (req, res) => {
         const getConfirmPassword = req.body.confirmPassword;
         const getEmail = req.body.email;
 
-        const userExists = await userData.findOne({email: getEmail});
+        const userExists = await userData.findOne({ email: getEmail });
 
         if (userExists) {
-            res.status(404).json("User Already Exists!!");
+            return res.status(401).json("User Already Exists, Please Log In to proceed..");
         }
         else {
 
@@ -133,57 +106,103 @@ app.post("/register", async (req, res) => {
 
                 const getData = await insertData.save();
                 // console.log("Data = " + getData);
-                res.status(201).json("registered..");
+                return res.status(201).json("Registered Successfully!!");
                 // res.render("indexFile");
             }
             else {
-                res.status(404).json("Enter Matching Passwords..");
-                // res.render("MatchingPasswordError");
+                res.status(401).json("Enter Matching Passwords..");
             }
         }
 
     } catch (err) {
-        res.status(404).json(err);
-        // res.render("ErrorPage");
+        return res.status(401).json("Something Went Wrong, Kindly Try Again..");
     }
 
 });
+
+
+
+
+
 
 // USER LOGIN
 
 app.post("/signIn", async (req, res) => {
+    const getEmail = req.body.email;
+    const getPassword = req.body.password;
+
+
     try {
-        const getEmail = req.body.email;
-        const getPassword = req.body.password;
-
         const getData = await userData.findOne({ email: getEmail });
-        console.log("LOG IN DATA = " + getData);
+        if (getData) {
+            console.log("LOG IN DATA = " + getData);
 
-        const validatingUser = await bcrypt.compare(getPassword, getData.password);
-        console.log(validatingUser);
-
-
-        if (validatingUser) {
-
-            const signInToken = await getData.createSignInToken();
-            console.log("Sign In Token = " + signInToken);
-
-            res.cookie("SignInCookieItchi", signInToken);
+            const validatingUser = await bcrypt.compare(getPassword, getData.password);
+            console.log(validatingUser);
 
 
-            // res.render("indexFile");
-            res.status(201).json("Logged INN");
+            if (validatingUser) {
+
+                const signInToken = await getData.createSignInToken();
+                console.log("Sign In Token = " + signInToken);
+
+                res.cookie("SignInCookieItchi", signInToken);
+
+                return res.status(201).json("Logged In Successfully 😸😸😸");
+            }
+            else {
+                return res.status(401).json("Wrong Password, Please Try Again..");
+            }
         }
         else {
-            res.status(404).json("Could Not Find User..");
-            // res.render("AloneErrorPage");
+            return res.status(401).json("Wrong Email, Please Try Again..");
         }
     } catch (err) {
-        res.status(404).json(err);
+        return res.status(401).json("Wrong Email..");
         // res.render("ErrorPage");
     }
 
 });
+
+
+
+
+// //AUTHENTICATE USER SIGNIN to Access Secret Page
+app.get("/secretPage", authenticate, (req, res) => {
+    console.log("Inside Secret App Now!!");
+    res.status(200).send(req.getData);
+})
+
+
+
+
+//SIGN OUT PAGE
+// app.get("/signOut", authenticate, async (req, res)=>{
+//     try{
+//         const getData = req.getData;
+//         const getCurrentLogInToken = req.getLogInCookie;
+
+//         getData.tokenValue = getData.tokenValue.filter((curValue, index)=>{
+//             return getCurrentLogInToken !== curValue.firstToken;
+//         });
+
+//         await getData.save();
+
+//         res.clearCookie("SignInCookieItchi");
+//         res.status(201).json("Cookie Cleared..");
+
+
+//         // res.render("indexFile");
+//     }catch(err){
+//         res.status(404).json(err);
+//     }
+
+// });
+
+
+
+
+
 
 
 

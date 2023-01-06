@@ -65,12 +65,20 @@ export default function RegistrationPage() {
             });
 
             const response = await data.json();
-            console.log(response);
+            console.log("Statys = " + response);
+            
+            if (data.status === 201) {
+                window.alert(response);
+                navigate("/");
+            }
+            else{
+                window.alert(response);
+            }
             // if(response.status === 404)
             // {
             //     navigate("/registration");
             // }
-            // else
+            // else if(response.status === 201)
             // {
             // console.log(response);
             // navigate("/");
