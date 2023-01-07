@@ -10,7 +10,7 @@ import ErrorPage from "./Components/ErrorPage";
 import AboutUsPage from "./Components/AboutUsPage";
 import SecretPage from "./Components/SecretPage";
 
-import Redux from "./Components/Redux";
+import ReduxToDo from "./Components/ReduxToDo";
 
 export default function App() {
 
@@ -28,9 +28,8 @@ export default function App() {
       <Route exact path="/secretPage" element = {<SecretPage/>}></Route>
       <Route exact path="*" element={<ErrorPage />}></Route>
       <Route exact path="/toDoList" element = {<ToDoList/>}></Route>
-      <Route exact path="/redux" element = {<Redux/>}></Route>
+      <Route exact path="/reduxToDo" element = {<ReduxToDo/>}></Route>
       
-      {/* <Route exact path="/toDoList" element= {<ToDoList/>}></Route> */}
     </Routes>
 
 

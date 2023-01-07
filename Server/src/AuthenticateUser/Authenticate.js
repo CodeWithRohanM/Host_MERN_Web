@@ -24,12 +24,12 @@ const AuthenticateUser = async (req, res, next) => {
                 if (verifyUser) {
                     // const verifyUserData = jwt.verify(getLogInCookie, process.env.SECRET_KEY);
 
-                    const getData = await userData.findOne({ _id: verifyUser.id });
-                    console.log("Comppp = " + getData);
-                    req.getLogInCookie = getLogInCookie;
-                    req.getData = getData;
-                    res.status(201).json("Verified User!!");
-                    next();
+                    // const getData = await userData.findOne({ _id: verifyUser.id });
+                    // console.log("Comppp = " + getData);
+                    // req.getLogInCookie = getLogInCookie;
+                    // req.getData = getData;
+                    return res.status(201).json("Verified User!!");
+                    // next();
 
                 }
                 else {

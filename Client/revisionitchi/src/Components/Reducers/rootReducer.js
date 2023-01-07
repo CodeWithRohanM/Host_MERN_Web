@@ -1,10 +1,8 @@
 import { combineReducers } from "redux";
-import {updateNumber, changeNumber} from "./reducers";
-
+import { updateListItems } from "./reducers";
 
 const rootReducer = combineReducers({
-    updateNumber,
-    changeNumber,
+    updateListItems,
 });
 
 export default rootReducer;
