@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import {useDispatch, useSelector} from "react-redux";
-import { Add_Item_List, delete_Item_List, Remove_All_Items_List } from "./Actions/actions";
+import { Add_Item_List, Delete_Item_List, Remove_All_Items_List } from "./Actions/actions";
 import ReduxList from "./ReduxList";
 
 const ReduxToDo = () => {
+
+
 
     const dispatch = useDispatch();
 
@@ -13,9 +15,11 @@ const ReduxToDo = () => {
 
     const setListItem = (event) =>{
         const getValue = event.target.value;
-
         setData(getValue);
+
     };
+
+
 
 
 
@@ -37,13 +41,19 @@ const ReduxToDo = () => {
 
                     {
                         getList.map((curValue, index)=>{
-                            return <ReduxList key = {index} getItem = {curValue}/>
+                            return <ReduxList key = {index} getItem = {curValue} id = {index} deleteItem = {()=> dispatch(Delete_Item_List(index))
+                            }/>
                         })
                     }
-
-
-
                 </div>
+
+
+
+                <div className="flex flex-row justify-center items-center">
+                    <button className="p-3 text-xl font-bold text-center mt-12 rounded-xl hover: cursor-pointer text-white bg-red-500" onClick={()=> dispatch(Remove_All_Items_List())}>Delete All</button>
+                </div>
+
+
 
             </div>
         </div>
