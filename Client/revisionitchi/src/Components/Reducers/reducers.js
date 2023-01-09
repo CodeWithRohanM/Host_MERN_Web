@@ -8,7 +8,7 @@ export const updateListItems = (state = initialState, action)=>{
         case "Add_Item":{
             if(action.payLoad.length === 0)
             {
-                alert("Enter");
+                alert("Enter Something To Add.. 🤦‍♂️");
             } 
             else
             {
