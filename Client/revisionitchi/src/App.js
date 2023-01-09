@@ -15,8 +15,6 @@ import ReduxToDo from "./Components/ReduxToDo";
 export default function App() {
 
   return <>
-
-
     {/* <h1 className="text-3xl text-red-500 text-semiBold text-center mt-14 font-mono">Hey There, Nice To See You Again!! 😃</h1> */}
 
    <Header />
